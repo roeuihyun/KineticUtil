@@ -22,16 +22,20 @@
 	var _makeCircleTxtCenter = function(){
 		
 		var label = new Kinetic.Label({
-			
+			x: 100,
+			y: 100,
+			draggable: true
 		});
 		
 		var circle = new Kinetic.Circle({
-			radius: 40,
+			radius: 20,
 			fill: 'red',
-			stroke: 'black',
+			stroke: 'red',
 			strokeWidth: 5
 		});
-		return circle;
+		
+		
+		return label.add(circle);
 	};
 	
 	var _makeLabelTxtCenter = function(){
@@ -50,11 +54,11 @@
 	// Stage객체 얻기 
 	var _getStage = function(_containerId,_width,_height){
 		var stage = KineticUtil.hash.get("stage");
-		if(stage == null){
+		if(stage == null || stage == undefined){
 			stage = new Kinetic.Stage({
 				container : _containerId,
 				width : _width,
-				heigth : _height
+				height : _height
 			});
 			KineticUtil.hash.put("stage");
 		}
@@ -62,20 +66,27 @@
 	};
 	
 	var _init = function(containerId){
-		var width = $("#"+containerId).width();
-		var height = $("#"+containerId).height();
+		
+		var width = $(window).width();
+		var height =  $(window).height();
+//		var width = $('#'+containerId).width();
+//		var height =  $('#'+containerId).height();
 		var stage = _getStage(containerId,width,height);
 		var layer = _getLayer();
-		var circle = _makeCircleTxtCenter();
-		layer.add(circle);
+		var circleLable = _makeCircleTxtCenter();
+		
+		layer.add(circleLable);
 		stage.add(layer);
+		
 	};
 	
 	KineticUtil.prototype = {
+			
 		init : _init,
 		getStage : _getStage,
 		makeLabelTxtCenter : _makeLabelTxtCenter,
-		makeCircleTxtCenter : _makeCircleTxtCenter 
+		makeCircleTxtCenter : _makeCircleTxtCenter
+		
 	};
 	
 	$.kineticUtil = function(element){
